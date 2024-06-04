@@ -1,5 +1,17 @@
 <script setup>
-defineEmits(['closeModal'])
+import { onMounted, onUnmounted } from 'vue'
+
+const emit = defineEmits(['closeModal'])
+
+function onKeydown(event) {
+  if (event.key === 'Escape') {
+    emit('closeModal')
+  }
+}
+
+onMounted(() => window.addEventListener('keydown', onKeydown))
+
+onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
 <template>
