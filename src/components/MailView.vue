@@ -1,6 +1,5 @@
 <script setup>
 import useKeydown from '@/composables/keydown'
-import axios from 'axios'
 import { format } from 'date-fns'
 import { marked } from 'marked'
 
@@ -11,23 +10,39 @@ const props = defineProps({
   }
 })
 
-const email = props.email
+const emit = defineEmits(['changeEmail'])
 
 useKeydown([
   { key: 'r', fn: toggleRead },
-  { key: 'e', fn: toggleArchive }
+  { key: 'e', fn: toggleArchive },
+  { key: 'k', fn: goNewer },
+  { key: 'j', fn: goOlder },
+  { key: '[', fn: goNewerAndArchive },
+  { key: ']', fn: goOlderAndArchive }
 ])
 
 function toggleRead() {
-  email.read = !email.read
-
-  axios.put(`http://localhost:3000/emails/${email.id}`, email)
+  emit('changeEmail', { toggleRead: true, save: true })
 }
 
 function toggleArchive() {
-  email.archived = !email.archived
+  emit('changeEmail', { toggleArchive: true, save: true, closeModal: true })
+}
 
-  axios.put(`http://localhost:3000/emails/${email.id}`, email)
+function goNewer() {
+  emit('changeEmail', { changeIndex: -1 })
+}
+
+function goOlder() {
+  emit('changeEmail', { changeIndex: 1 })
+}
+
+function goNewerAndArchive() {
+  emit('changeEmail', { changeIndex: -1, toggleArchive: true, save: true })
+}
+
+function goOlderAndArchive() {
+  emit('changeEmail', { changeIndex: 1, toggleArchive: true, save: true })
 }
 </script>
 
