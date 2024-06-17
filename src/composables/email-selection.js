@@ -11,5 +11,13 @@ export default function useEmailSelection() {
     }
   }
 
-  return { emails, toggle }
+  function clear() {
+    emails.clear()
+  }
+
+  function addMultiple(newEmails) {
+    newEmails.forEach((email) => emails.add(email))
+  }
+
+  return { emails, toggle, clear, addMultiple }
 }

@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import axios from 'axios'
 import MailView from '@/components/MailView.vue'
 import ModalView from '@/components/ModalView.vue'
+import BulkActionBar from '@/components/BulkActionBar.vue'
 import useEmailSelection from '@/composables/email-selection.js'
 
 const { data } = await axios.get('http://localhost:3000/emails')
@@ -70,6 +71,7 @@ function changeEmail({ toggleRead, toggleArchive, save, closeModal, changeIndex 
 </script>
 
 <template>
+  <BulkActionBar :emails="unarchivedEmails" />
   <h1>{{ emailSelection.emails.size }} emails selected</h1>
   <table class="mail-table">
     <tbody>
@@ -82,7 +84,7 @@ function changeEmail({ toggleRead, toggleArchive, save, closeModal, changeIndex 
           <input
             type="checkbox"
             @click="emailSelection.toggle(email)"
-            :selected="emailSelection.emails.has(email)"
+            :checked="emailSelection.emails.has(email)"
           />
         </td>
         <td @click="openEmail(email)">{{ email.from }}</td>
