@@ -72,7 +72,7 @@ function changeEmail({ toggleRead, toggleArchive, save, closeModal, changeIndex 
 
 <template>
   <BulkActionBar :emails="unarchivedEmails" />
-  <h1>{{ emailSelection.emails.size }} emails selected</h1>
+
   <table class="mail-table">
     <tbody>
       <tr
